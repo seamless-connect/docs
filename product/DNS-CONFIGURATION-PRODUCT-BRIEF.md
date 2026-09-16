@@ -121,31 +121,12 @@ The DNS Provider:
 - Executes permitted changes through its existing infrastructure.
 - Reports execution results and available DNS state.
 
-## Conflict handling and authorization
+## Key policy boundaries
 
-Conflict detection informs authorization; it does not replace it.
-
-Seamless Connect may detect and classify conflicts, present their consequences, and coordinate resolution. When a proposed change could replace or disable an existing service, the Domain Owner or an authorized delegate must approve that outcome. A Service Provider request alone is not sufficient authorization.
-
-DNS behavior differs across DNS Providers. Capability profiles should describe supported record types, visible DNS state, aliasing or CNAME-flattening behavior, conflict-detection limits, and verification capabilities. When the existing state is uncertain, Seamless Connect should disclose that uncertainty and verify the resulting state.
-
-Partial application may be supported only when the remaining configuration is coherent, dependencies are preserved, and the result is reported accurately.
-
-## Templates and advanced operations
-
-Seamless Connect supports standard Domain Connect templates and compatible Service Provider requests. It will also participate in template approval and lifecycle management, which will be defined separately.
-
-Advanced requests may reference a template, policy, or ruleset. A DNS Provider may also choose to accept explicit non-templated operations. Seamless Connect must enforce the DNS Provider's declared policy before requesting execution and must never silently convert a rejected templated request into a non-templated request.
-
-The detailed policy model for advanced operations remains a product requirement to resolve. In particular, the project must define whether every advanced request must conform to a pre-approved policy or ruleset, and who may approve and submit each kind of request.
-
-## Agents
-
-Agents are a first-class initiator, but their executable requests must be deterministic.
-
-An Agent may choose among authorized operations and provide inputs within approved constraints. It may not invent record structures, targets, operations, or authorization scope at runtime. Free-form model output is not an executable DNS request.
-
-Agent requests should reference a pre-approved template, policy, or ruleset from which Seamless Connect can derive the complete operation plan.
+- **Conflict handling:** Seamless Connect detects and coordinates DNS conflict resolution, but disruptive changes require authorization from the Domain Owner or an authorized delegate. DNS Provider capabilities determine what conflicts can be detected and verified reliably.
+- **Domain Connect templates:** Seamless Connect supports standard Domain Connect templates and participates in their approval and lifecycle management.
+- **Advanced operations:** A DNS Provider may allow policy-governed create, read, update, and delete operations, including non-templated operations. Seamless Connect validates these requests against the DNS Provider's declared policy before execution.
+- **Agents:** Agents may initiate requests, but executable operations must be deterministic and constrained by a pre-approved template, policy, or ruleset. Free-form Agent output is not an executable DNS request.
 
 ## Adoption outcome
 
@@ -175,14 +156,14 @@ This brief describes the product direction and adoption model. Detailed behavior
 
 Follow-on product requirements should define:
 
+- Conflict classification, Domain Owner authorization, partial application, and verification when DNS state is uncertain.
+- Domain Connect template approval, publication, versioning, and deprecation.
+- Policies for advanced operations, including whether every request must follow a pre-approved policy or ruleset.
+- Deterministic constraints, attribution, and delegation requirements for Agents.
 - Request and operation lifecycles.
-- Template approval and lifecycle management.
 - DNS Provider capability profiles.
-- Conflict classification and authorization rules.
 - Scoped authorization and delegation.
 - Synchronous and asynchronous behavior.
-- Advanced operation policies.
-- Deterministic constraints for Agents.
 - Verification, failure, partial outcome, and audit requirements.
 
 System design documents should define the implementation architecture and DNS Provider adapter contract. Decisions that affect multiple integrations should be recorded separately.
