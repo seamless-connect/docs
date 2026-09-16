@@ -2,258 +2,193 @@
 
 Status: Draft
 
-## Product vision
+Audience: DNS Provider product and engineering teams, Service Providers, and Seamless Connect contributors.
 
-Seamless Connect is a coordination service between Service Providers, Domain Owners, and DNS Providers.
+## Summary
 
-It gives Service Providers a consistent way to request DNS operations while allowing DNS Providers to integrate through their existing APIs and retain control over authorization and execution.
+Seamless Connect gives DNS Providers a simple way to accept authorized DNS configuration requests without building a separate Service Provider interface or workflow system.
 
-Seamless Connect should support conventional SaaS and cloud services as well as Agents acting for Domain Owners.
+A DNS Provider integrates once with Seamless Connect through scoped authorization and its existing DNS API. Seamless Connect accepts requests from Service Providers, Agents, and other initiators; validates them against applicable templates and policies; coordinates conflict resolution and Domain Owner authorization; and sends the DNS Provider a deterministic operation plan for execution.
 
-## Problem
+The DNS Provider retains control over which capabilities it supports and whether a request may execute.
 
-Service Providers currently rely on a mix of Domain Connect, manual instructions, and DNS Provider-specific integrations.
+## Why adopt Seamless Connect
 
-This creates several problems:
+DNS Providers should be able to offer a consistent configuration experience while minimizing new integration work.
 
-- DNS Providers must support different integration models.
-- Service Providers must build integrations with individual DNS Providers.
-- Domain Owners must often configure records manually.
-- Complex operations need authorization, status tracking, verification, and failure handling.
-- Enterprise processes may require approvals or scheduled execution.
-- Agents need a safe and deterministic way to request DNS changes.
+Seamless Connect allows a DNS Provider to:
 
-Seamless Connect should absorb this coordination complexity without requiring DNS Providers to replace their existing APIs or build new workflow systems.
+- Reuse its existing DNS API and authorization systems.
+- Integrate once instead of supporting separate request interfaces for different Service Providers and Agents.
+- Offload template handling, policy checks, conflict coordination, and synchronous and asynchronous workflows.
+- Adopt only the capabilities it is ready to support.
+- Retain final enforcement and execution within its own infrastructure.
 
-## Product approach
+For Domain Owners, this means fewer manual DNS instructions and a more consistent authorization experience. For Service Providers and Agents, it provides one predictable way to request DNS configuration across participating DNS Providers.
 
-Seamless Connect provides two request paths.
+## How it works
 
-### Standard Domain Connect
+```text
+Service Provider, Agent, or other initiator
+                    |
+                    v
+            Seamless Connect
+  validate -> apply policy -> resolve conflicts
+       -> obtain authorization -> create plan
+                    |
+                    v
+               DNS Provider
+          enforce -> execute -> report
+```
 
-Service Providers can send standard Domain Connect requests with 1:1 protocol compatibility.
+From the DNS Provider's perspective, Seamless Connect is the requesting service. The DNS Provider does not need different integrations based on who initiated the request.
 
-These requests use standard Domain Connect templates. Seamless Connect validates the request, obtains authorization, translates the template into DNS Provider API operations, coordinates execution, verifies the result, and returns a Domain Connect-compatible outcome.
+Seamless Connect still retains the initiator's identity and authorization context for policy enforcement, audit, and reporting. Actor abstraction must not become loss of attribution.
 
-A Service Provider using this path should not need Seamless-specific behavior.
+## Two DNS Provider adoption paths
 
-### Advanced DNS operations
+### DNS Providers that support Domain Connect
 
-Service Providers and other authorized initiators can request create, read, update, and delete operations through a Seamless Connect API.
+An existing Domain Connect implementation remains useful. The DNS Provider may reuse its template-processing and DNS execution capabilities while delegating more of the Service Provider-facing experience to Seamless Connect, including:
 
-An advanced request may:
+- Request validation.
+- Template coordination.
+- Conflict detection and resolution workflows.
+- Domain Owner authorization experiences.
+- Synchronous and asynchronous request handling.
+- Verification and result reporting.
 
-- Reference a supported Domain Connect template.
-- Reference another approved policy or ruleset.
-- Contain explicit non-templated DNS operations when the DNS Provider permits them.
+Seamless Connect preserves standard Domain Connect compatibility for Service Providers while reducing the DNS Provider's UI and workflow burden.
 
-Each DNS Provider decides whether it accepts non-templated requests and may restrict them by operation, record type, domain, initiator, or authorization scope.
+### DNS Providers that do not support Domain Connect
 
-## DNS Provider integration
+A DNS Provider should not need to implement the complete Domain Connect protocol before adopting Seamless Connect.
 
-The target integration should be as simple as:
+The target integration consists of:
 
-1. An OAuth authorization service.
-2. Configuration describing supported capabilities and policies.
-3. An adapter to the DNS Provider's existing DNS API.
+1. OAuth or equivalent scoped authorization.
+2. An adapter to the DNS Provider's existing DNS API.
+3. A capability profile describing supported record types, operations, templates, DNS behavior, and policy constraints.
 
-The DNS Provider remains responsible for:
+Seamless Connect handles the Service Provider interface, Domain Connect request compatibility, coordination workflow, and translation into the DNS Provider's supported operations.
 
-- Authenticating the Domain Owner.
-- Determining what access may be granted.
-- Defining supported templates and operations.
-- Deciding whether to accept non-templated requests.
-- Applying changes through its existing infrastructure.
+## Incremental capabilities
 
-Seamless Connect remains responsible for:
+A DNS Provider can adopt Seamless Connect in stages. Each stage adds value without requiring every later capability.
 
-- Accepting and validating requests.
-- Maintaining authorization and delegation context.
-- Planning DNS Provider operations.
-- Managing synchronous and asynchronous workflows.
-- Coordinating related operations.
-- Tracking retries and partial outcomes.
-- Verifying DNS state.
-- Reporting results and retaining operation history.
+| Capability | DNS Provider commitment | Seamless Connect responsibility |
+| --- | --- | --- |
+| Connect | Provide scoped authorization and access to an existing DNS API | Normalize the integration and maintain the capability profile |
+| Standard Domain Connect | Support selected templates and required record operations | Accept compatible requests, validate templates, coordinate authorization, and translate operations |
+| Seamless-hosted experience | Delegate request and conflict-resolution interactions | Present consistent Domain Owner authorization and conflict choices |
+| Asynchronous operations | Continue exposing ordinary DNS operations and status where available | Manage approvals, scheduling, retries, callbacks, and operation status |
+| Advanced operations | Declare permitted create, read, update, and delete operations | Enforce policy and submit deterministic operation plans |
+| Agent requests | Accept authorized operation plans under declared policy | Constrain Agent requests to pre-approved, deterministic behavior |
 
-DNS Providers should not need to build new queues, approval systems, schedulers, callback systems, or asynchronous control planes to participate.
+The initial adoption target is the smallest useful integration: scoped authorization, an existing DNS API, and a capability profile. More advanced capabilities can follow.
 
-## Conflict handling and synchronous authorization
+## Responsibility boundaries
 
-Seamless Connect does not eliminate the synchronous Domain Connect flow. It may provide the authorization and conflict-resolution experience on behalf of a DNS Provider, reducing the DNS Provider's UI and workflow burden.
+### Domain Owner
 
-Seamless Connect may detect and classify conflicts, present their consequences, and offer resolution options. Conflict detection does not authorize a disruptive change. When a request could replace or disable an existing service, the Domain Owner or an authorized delegate must approve that outcome. A Service Provider request does not provide this authorization.
+The Domain Owner authorizes access and makes any required decision about changes that could replace or disrupt an existing service. A valid delegation may allow another actor to act within a defined scope.
 
-Deterministic policy may be used for consistent technical handling after the Domain Owner's intent is known. Scoped authorization may permit applying part of a template, but only when the remaining configuration is coherent and the result is reported accurately as partial.
+### Service Provider, Agent, or other initiator
 
-Some DNS Providers may not expose a stable zone view because of behavior such as CNAME flattening. Each DNS Provider integration should therefore describe its supported RR types, visible DNS state, conflict-detection limits, and verification capabilities. Seamless Connect should disclose uncertainty and verify the resulting state rather than present incomplete conflict analysis as definitive.
+The initiator requests an outcome and supplies permitted inputs. A request does not grant authority to change DNS or expand the initiator's scope.
 
-## Authorization and delegation
+### Seamless Connect
 
-Operations may be initiated by:
+Seamless Connect:
 
-- Domain Owners.
-- Conventional Service Providers.
-- Enterprise change-management systems.
-- Agents.
-- Other authorized delegates.
+- Authenticates and attributes the initiator.
+- Validates the request against supported templates, policies, and DNS Provider capabilities.
+- Detects conflicts and coordinates their resolution.
+- Obtains or verifies Domain Owner authorization or delegation.
+- Produces a deterministic operation plan.
+- Manages synchronous and asynchronous workflows.
+- Verifies and reports the result.
 
-A mutating operation executes only after the Domain Owner has provided authorization or a valid delegation recognized by the DNS Provider.
+Only a request that passes these checks is submitted for execution.
 
-Authorization and delegation must be:
+### DNS Provider
 
-- Explicit.
-- Limited to defined domains and operations.
-- Associated with an identifiable initiator.
-- Time-bounded where appropriate.
-- Revocable.
-- Auditable.
+The DNS Provider:
 
-An initiator cannot approve or expand its own authority.
+- Authenticates the Domain Owner and grants scoped access.
+- Declares supported capabilities and policy constraints.
+- Enforces final authorization and operational limits.
+- Executes permitted changes through its existing infrastructure.
+- Reports execution results and available DNS state.
 
-## Synchronous and asynchronous operation
+## Conflict handling and authorization
 
-Service Providers may submit requests synchronously or asynchronously.
+Conflict detection informs authorization; it does not replace it.
 
-Synchronous handling is appropriate when authorization, execution, and verification can complete during an interactive session.
+Seamless Connect may detect and classify conflicts, present their consequences, and coordinate resolution. When a proposed change could replace or disable an existing service, the Domain Owner or an authorized delegate must approve that outcome. A Service Provider request alone is not sufficient authorization.
 
-Asynchronous handling is appropriate for:
+DNS behavior differs across DNS Providers. Capability profiles should describe supported record types, visible DNS state, aliasing or CNAME-flattening behavior, conflict-detection limits, and verification capabilities. When the existing state is uncertain, Seamless Connect should disclose that uncertainty and verify the resulting state.
 
-- Enterprise approvals.
-- Separation of duties.
-- Scheduled change windows.
-- Long-running DNS Provider operations.
-- Coordinated operations.
-- Agents that submit work and monitor completion.
+Partial application may be supported only when the remaining configuration is coherent, dependencies are preserved, and the result is reported accurately.
 
-Seamless Connect manages the asynchronous lifecycle even when the DNS Provider exposes only an ordinary synchronous API.
+## Templates and advanced operations
 
-An asynchronous request receives a stable operation identifier and an observable status such as:
+Seamless Connect supports standard Domain Connect templates and compatible Service Provider requests. It will also participate in template approval and lifecycle management, which will be defined separately.
 
-- Pending authorization.
-- Pending approval.
-- Scheduled.
-- Applying.
-- Verifying.
-- Succeeded.
-- Partially applied.
-- Failed.
-- Canceled.
-- Expired.
-- Outcome unknown.
+Advanced requests may reference a template, policy, or ruleset. A DNS Provider may also choose to accept explicit non-templated operations. Seamless Connect must enforce the DNS Provider's declared policy before requesting execution and must never silently convert a rejected templated request into a non-templated request.
 
-## Templates and DNS Provider policy
-
-Seamless Connect will have a role in managing the Domain Connect template approval process. Submission, approval, governance, publication, versioning, and deprecation will be covered in a separate product requirements document.
-
-For DNS configuration:
-
-- Standard Domain Connect requests use supported standard templates.
-- Advanced requests may also reference supported templates.
-- Seamless Connect verifies that the DNS Provider accepts the referenced template.
-- A rejected template is not silently converted into a non-templated request.
-- DNS Providers choose whether to accept non-templated requests.
-- Seamless Connect enforces the DNS Provider's declared policy before requesting authorization or attempting execution.
+The detailed policy model for advanced operations remains a product requirement to resolve. In particular, the project must define whether every advanced request must conform to a pre-approved policy or ruleset, and who may approve and submit each kind of request.
 
 ## Agents
 
-Agents are an important product audience, but their executable requests must remain deterministic.
+Agents are a first-class initiator, but their executable requests must be deterministic.
 
-An Agent request must reference a pre-approved:
+An Agent may choose among authorized operations and provide inputs within approved constraints. It may not invent record structures, targets, operations, or authorization scope at runtime. Free-form model output is not an executable DNS request.
 
-- Template.
-- Policy.
-- Ruleset.
+Agent requests should reference a pre-approved template, policy, or ruleset from which Seamless Connect can derive the complete operation plan.
 
-The complete DNS operation must be deterministically derived from that artifact and its permitted inputs.
+## Adoption outcome
 
-An Agent may select among authorized operations and supply values within approved constraints. It may not invent new record structures, operations, targets, or authorization scope at runtime.
+Successful adoption means that:
 
-Free-form model output or reasoning is not itself an executable DNS request.
-
-Every Agent operation must identify:
-
-- The Agent.
-- The person or organization represented by the Agent.
-- The governing template, policy, or ruleset.
-- The delegation authorizing the operation.
-- The inputs used to derive the final operation.
+- A DNS Provider can integrate without replacing its DNS infrastructure or building a new workflow control plane.
+- A DNS Provider with Domain Connect can reuse its investment and delegate coordination work to Seamless Connect.
+- A DNS Provider without Domain Connect can participate through scoped authorization, an existing DNS API, and a capability profile.
+- Service Providers can use standard Domain Connect or Seamless Connect capabilities without building DNS Provider-specific integrations.
+- Domain Owners retain authority over disruptive changes.
+- Requests from Service Providers, Agents, and other initiators are converted into attributable, authorized, and deterministic operation plans.
 
 ## Product principles
 
+- Make DNS Provider adoption small and incremental.
 - Preserve standard Domain Connect compatibility.
-- Conflict detection informs authorization; it does not replace it.
-- Seamless Connect may centralize synchronous authorization UX, but it must not eliminate the Domain Owner's decision.
-- Handle DNS Provider-specific behavior consistently through declared capabilities.
-- Preserve template dependencies and report partial template application accurately.
-- Disclose uncertain pre-application state and verify the resulting DNS state.
-- Use existing DNS Provider APIs and authorization systems.
-- Keep the DNS Provider integration surface small.
-- Preserve Domain Owner authority.
-- Preserve DNS Provider policy control.
-- Support both human and machine initiators.
+- Abstract the initiating actor from the DNS Provider without losing attribution.
+- Preserve Domain Owner authority and DNS Provider policy control.
+- Centralize coordination complexity in Seamless Connect.
 - Keep Agent execution deterministic.
-- Separate templated and non-templated requests clearly.
-- Do not silently broaden an authorized request.
-- Do not modify unrelated DNS records.
-- Verify resulting DNS state before reporting success.
-- Report partial or ambiguous outcomes honestly.
-- Make every operation attributable and auditable.
-- Put asynchronous workflow complexity in Seamless Connect rather than DNS Providers.
+- Do not modify unrelated DNS records or silently broaden a request.
+- Verify outcomes and report partial or uncertain results honestly.
 
-## Initial product scope
+## Further detail
 
-The initial implementation should demonstrate:
+This brief describes the product direction and adoption model. Detailed behavior belongs in follow-on documents so DNS Provider reviewers can understand the value and integration shape without first reading a full system specification.
 
-1. A DNS Provider integrating through OAuth and its existing DNS API.
-2. A standard Domain Connect request handled with 1:1 compatibility.
-3. Translation of a supported template into DNS Provider API operations.
-4. Domain Owner authorization with appropriately scoped access.
-5. A DNS Provider declaring its policy for non-templated operations.
-6. At least one accepted non-templated operation.
-7. Rejection of a non-templated operation when DNS Provider policy does not permit it.
-8. Synchronous and asynchronous request handling.
-9. An enterprise request pending approval or a scheduled change window.
-10. An Agent request derived deterministically from a pre-approved artifact.
-11. Verification and reporting of successful, failed, partial, and ambiguous outcomes.
-12. An operation history showing who requested, authorized, executed, and observed the change.
-13. A synchronous conflict flow hosted by Seamless Connect.
-14. A conflict in which the Domain Owner chooses whether to replace an existing service.
-15. A DNS Provider capability profile covering supported RR types and conflict-detection limitations.
-16. Verification for a DNS Provider whose configured and authoritative DNS views may differ.
-17. Safe partial application of a template, or rejection when partial application would be invalid.
+Follow-on product requirements should define:
 
-## Success indicators
+- Request and operation lifecycles.
+- Template approval and lifecycle management.
+- DNS Provider capability profiles.
+- Conflict classification and authorization rules.
+- Scoped authorization and delegation.
+- Synchronous and asynchronous behavior.
+- Advanced operation policies.
+- Deterministic constraints for Agents.
+- Verification, failure, partial outcome, and audit requirements.
 
-The initial product should demonstrate that:
+System design documents should define the implementation architecture and DNS Provider adapter contract. Decisions that affect multiple integrations should be recorded separately.
 
-- A DNS Provider can integrate without replacing its existing DNS infrastructure.
-- A standard Domain Connect Service Provider can use Seamless Connect without proprietary client behavior.
-- Asynchronous workflows do not require new DNS Provider workflow infrastructure.
-- Authorized advanced operations can be executed without affecting unrelated DNS data.
-- Agent operations remain within their approved policies and delegations.
-- Unsupported requests are rejected before execution.
-- Successful results reflect verified DNS state.
-- Every operation can be explained from its history.
+Role-specific adoption steps are maintained in the existing integration checklists:
 
-## Open product questions
-
-1. Must every advanced CRUD request conform to a pre-approved template, policy, or ruleset?
-2. If direct CRUD requests are permitted, which actors may submit them?
-3. What qualifies as a pre-approved policy or ruleset?
-4. Who can approve each type of policy or ruleset?
-5. Which values may an initiator supply at runtime?
-6. How do policy changes or revocation affect pending operations?
-7. How should DNS Providers publish their template and non-template capabilities?
-8. Which CRUD operations and record types belong in the initial release?
-9. What OAuth scopes are needed for domains, records, operations, initiators, and duration?
-10. Which operations require interactive authorization, and which may use standing delegation?
-11. Which polling, callback, and event mechanisms are needed for asynchronous clients?
-12. Which DNS Provider, Service Provider, and template should be used for the initial pilot?
-13. Which conflicts always require an explicit Domain Owner decision?
-14. Which non-disruptive conflicts may be handled through deterministic policy?
-15. When is partial template application valid, and how are record dependencies represented?
-16. What result should a Service Provider receive after partial application of a standard Domain Connect template?
-17. What minimum DNS state must a DNS Provider expose for reliable conflict detection?
-18. How should Seamless Connect behave when no stable pre-application zone view exists?
-19. What capabilities and limitations must each DNS Provider integration publish?
+- [DNS Provider integration checklist](../integration-checklists/dns-provider-integration-checklist.md)
+- [Service Provider integration checklist](../integration-checklists/service-provider-integration-checklist.md)
+- [Registrar integration checklist](../integration-checklists/registrar-integration-checklist.md)
