@@ -13,8 +13,6 @@ Standards-adjacent specifications and related work belong in the [`seamlessdns/s
 | [Decisions](docs/decisions/) | Approved project decisions, including their context and rationale. |
 | [Working notes](docs/working-notes/) | Non-normative, exploratory material that may reflect individual contributors' thinking. |
 
-Working notes are not approved project requirements, designs, or decisions.
-
 ## Integration checklists
 
 - [DNS Provider Integration Checklist](dns-provider-integration-checklist.md): implementation and estimation guide for DNS updates and child-side DNSSEC responsibilities.
