@@ -8,9 +8,9 @@ Standards-adjacent specifications and related work belong in the [`seamlessdns/s
 
 | Section | Purpose |
 | --- | --- |
-| [Product requirements](docs/product/) | Approved requirements defining what the project is intended to deliver. |
-| [Designs](docs/designs/) | Approved technical and product designs describing how requirements will be implemented. |
-| [Decisions](docs/decisions/) | Approved project decisions, including their context and rationale. |
+| [Product requirements](docs/product/) | Requirements defining what the project is intended to deliver. |
+| [Designs](docs/designs/) | Technical and product designs describing how requirements will be implemented. |
+| [Decisions](docs/decisions/) | Project decisions, including their context and rationale. |
 | [Working notes](docs/working-notes/) | Non-normative, exploratory material that may reflect individual contributors' thinking. |
 
 ## Integration checklists
