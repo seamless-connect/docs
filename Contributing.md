@@ -2,6 +2,27 @@
 
 This guide explains how open-source work on Seamless DNS is conducted.
 
+## Terminology
+
+Use explicit actor names in documentation, issues, designs, diagrams, examples, and user-facing text.
+
+Do not use **provider** or **providers** alone when referring to a project actor. Several actors provide services in different contexts, so the unqualified term is ambiguous.
+
+Use the complete role name:
+
+- **DNS Provider** for the operator of authoritative DNS service.
+- **Service Provider** for a service requesting domain or DNS configuration.
+- **Registrar** for the sponsoring registrar of a domain registration.
+- **Registry** for the operator of a registration data repository and authoritative registration system.
+- **Agent** for an agentic system acting for a person or organization.
+- **Domain Owner** for the person or organization that controls a domain.
+
+Use the explicit role in compound terms as well. Write **DNS Provider API**, **DNS Provider policy**, and **Service Provider request**, not **provider API**, **provider policy**, or **provider request**.
+
+When a statement applies to multiple actor types, name them or define a clear collective term for that context, such as **participants** or **integrated systems**. Do not use **providers** as the collective term.
+
+Capitalize these role names consistently when they refer to actors in the Seamless Connect system.
+
 ## Proposing a Feature
 
 The project has a substantial backlog. New feature proposals should be submitted via GitHub Issues using the **New Feature** label. A strong feature request answers the following questions:

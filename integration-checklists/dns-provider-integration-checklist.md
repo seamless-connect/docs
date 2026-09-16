@@ -6,7 +6,7 @@ For DNS updates:
 - [ ] Enable OAuth with appropriately scoped DNS permissions for Seamless Connect.
 - [ ] Optionally publish `_domainconnect` responses that point to Seamless Connect endpoints.
 
-For providers without OAuth, Seamless Connect may initially support a token-based integration.
+For DNS Providers without OAuth, Seamless Connect may initially support a token-based integration.
 
 For DNSSEC:
 

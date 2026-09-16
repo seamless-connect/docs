@@ -2,7 +2,7 @@
 
 Status: Discovery and pilot design
 
-Goal: Automate DNSSEC across independently operated registrars and DNS providers using existing standards.
+Goal: Automate DNSSEC across independently operated Registrars and DNS Providers using existing standards.
 
 ## Current understanding
 
@@ -19,7 +19,7 @@ See the [Registrar Integration Checklist](../integration-checklists/registrar-in
 
 ## Open questions
 
-- Should initiation be registrar-originated, DNS-provider-originated, or support both?
+- Should initiation be Registrar-originated, DNS Provider-originated, or support both?
 
 ## How to participate
 
