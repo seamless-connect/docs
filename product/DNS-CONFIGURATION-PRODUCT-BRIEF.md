@@ -78,6 +78,16 @@ Seamless Connect remains responsible for:
 
 DNS Providers should not need to build new queues, approval systems, schedulers, callback systems, or asynchronous control planes to participate.
 
+## Conflict handling and synchronous authorization
+
+Seamless Connect does not eliminate the synchronous Domain Connect flow. It may provide the authorization and conflict-resolution experience on behalf of a DNS Provider, reducing the DNS Provider's UI and workflow burden.
+
+Seamless Connect may detect and classify conflicts, present their consequences, and offer resolution options. Conflict detection does not authorize a disruptive change. When a request could replace or disable an existing service, the Domain Owner or an authorized delegate must approve that outcome. A Service Provider request does not provide this authorization.
+
+Deterministic policy may be used for consistent technical handling after the Domain Owner's intent is known. Scoped authorization may permit applying part of a template, but only when the remaining configuration is coherent and the result is reported accurately as partial.
+
+Some DNS Providers may not expose a stable zone view because of behavior such as CNAME flattening. Each DNS Provider integration should therefore describe its supported RR types, visible DNS state, conflict-detection limits, and verification capabilities. Seamless Connect should disclose uncertainty and verify the resulting state rather than present incomplete conflict analysis as definitive.
+
 ## Authorization and delegation
 
 Operations may be initiated by:
@@ -172,6 +182,11 @@ Every Agent operation must identify:
 ## Product principles
 
 - Preserve standard Domain Connect compatibility.
+- Conflict detection informs authorization; it does not replace it.
+- Seamless Connect may centralize synchronous authorization UX, but it must not eliminate the Domain Owner's decision.
+- Handle DNS Provider-specific behavior consistently through declared capabilities.
+- Preserve template dependencies and report partial template application accurately.
+- Disclose uncertain pre-application state and verify the resulting DNS state.
 - Use existing DNS Provider APIs and authorization systems.
 - Keep the DNS Provider integration surface small.
 - Preserve Domain Owner authority.
@@ -202,6 +217,11 @@ The initial implementation should demonstrate:
 10. An Agent request derived deterministically from a pre-approved artifact.
 11. Verification and reporting of successful, failed, partial, and ambiguous outcomes.
 12. An operation history showing who requested, authorized, executed, and observed the change.
+13. A synchronous conflict flow hosted by Seamless Connect.
+14. A conflict in which the Domain Owner chooses whether to replace an existing service.
+15. A DNS Provider capability profile covering supported RR types and conflict-detection limitations.
+16. Verification for a DNS Provider whose configured and authoritative DNS views may differ.
+17. Safe partial application of a template, or rejection when partial application would be invalid.
 
 ## Success indicators
 
@@ -230,3 +250,10 @@ The initial product should demonstrate that:
 10. Which operations require interactive authorization, and which may use standing delegation?
 11. Which polling, callback, and event mechanisms are needed for asynchronous clients?
 12. Which DNS Provider, Service Provider, and template should be used for the initial pilot?
+13. Which conflicts always require an explicit Domain Owner decision?
+14. Which non-disruptive conflicts may be handled through deterministic policy?
+15. When is partial template application valid, and how are record dependencies represented?
+16. What result should a Service Provider receive after partial application of a standard Domain Connect template?
+17. What minimum DNS state must a DNS Provider expose for reliable conflict detection?
+18. How should Seamless Connect behave when no stable pre-application zone view exists?
+19. What capabilities and limitations must each DNS Provider integration publish?
