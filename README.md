@@ -2,7 +2,7 @@
 
 This repository contains product, design, decision, implementation, and integration documentation for Seamless Connect.
 
-Standards-adjacent specifications and related work belong in the [`seamlessdns/spec`](https://github.com/seamlessdns/spec) repository.
+Standards-adjacent specifications and related work belong in the [`seamless-connect/spec`](https://github.com/seamless-connect/spec) repository.
 
 ## Project documentation
 
