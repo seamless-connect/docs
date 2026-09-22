@@ -91,3 +91,5 @@ Service will need to
       1. What organizations are allowed to do
       2. What organization allows groups to do
    4. Operating system access is at least as strict as application access
+10. OpenTelemetry support
+   1. Or at least end-to-end Request ID support
