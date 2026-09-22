@@ -12,6 +12,7 @@ Standards-adjacent specifications and related work belong in the [`seamless-conn
 | [Designs](designs/) | Technical and product designs describing how requirements will be implemented. |
 | [Decisions](decisions/) | Project decisions, including their context and rationale. |
 | [Working notes](working-notes/) | Non-normative, exploratory material that may reflect individual contributors' thinking. |
+| [Integration catalog](docs/integrations/) | Candidate control planes for domain, DNS, agent-registration, and bootstrap integrations. |
 
 ## Integration checklists
 
