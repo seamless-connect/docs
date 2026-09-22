@@ -23,7 +23,7 @@ Standards-adjacent specifications and related work belong in the [`seamless-conn
 
 ## Community
 
-- [Industry events calendar](community/events.md): a rolling 12-month calendar for standards, implementation, partner, and ecosystem engagement.
+- [Industry events calendar](community/events.md): an informational calendar of relevant domain, DNS, standards, cloud, and Internet-infrastructure events.
 
 ## Contributing
 
