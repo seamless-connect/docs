@@ -45,6 +45,22 @@ Dates and locations were checked against organizer sources on **22 September 202
 | 6–12 Nov 2027 | [IETF 130](https://www.ietf.org/meeting/upcoming/) | Vancouver, British Columbia, Canada | Standards development and implementation work across DNS and adjacent Internet protocols. |
 | 15–19 Nov 2027 | [RIPE 95](https://www.ripe.net/meetings/ripe-meetings/upcoming-ripe-meetings/) | Madrid, Spain | European Internet-operations meeting spanning DNS, routing, security, measurement, and infrastructure. |
 
+## Agentic Web
+
+These events cover agent interoperability, discovery, identity, authorization, trust, secure operations, and open infrastructure relevant to an agentic web. They are listed as an informational subset of the broader industry calendar.
+
+| Date | Event | Location | Relevance to Seamless Connect |
+| --- | --- | --- | --- |
+| 5–6 Oct 2026 | [MCP Dev Summit Toronto](https://events.linuxfoundation.org/mcp-dev-summit-toronto/) | Toronto, Ontario, Canada | Technical gathering on Model Context Protocol infrastructure, agent orchestration, identity, authorization, registries, security, and production operations. |
+| 22–23 Oct 2026 | [AGNTCon + MCPCon North America](https://events.linuxfoundation.org/agntcon-mcpcon-north-america/) | San Jose, California, US | Agentic engineering, MCP, interoperability, multi-agent systems, security, governance, and production infrastructure. |
+| 19–20 Nov 2026 | [MCP Dev Summit Nairobi](https://events.linuxfoundation.org/mcp-dev-summit-nairobi/) | Nairobi, Kenya | Real-world agentic systems, MCP development, multi-agent coordination, enterprise integration, and secure, reliable infrastructure. |
+| 15 Mar 2027 | [Agentics Day: MCP + Agents Europe](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/agentics-day-mcp-agents/) | Barcelona, Spain | Community event on MCP architecture, security, trust, production use, enterprise integration, and connecting AI systems with tools and data. |
+| 28–29 Apr 2027 | [AGNTCon + MCPCon North America 2027](https://events.linuxfoundation.org/agntcon-mcpcon-north-america-2027/) | San Francisco, California, US | Open agentic AI ecosystem event relevant to interoperable protocols and the infrastructure behind agent systems. |
+| 7–8 Jun 2027 | [USENIX Conference on Secure Agentic-AI Systems (SAIS '27)](https://www.usenix.org/conference/sais27) | Santa Clara, California, US | Research and practice focused on secure, privacy-preserving design, verification, and deployment of autonomous AI agents. |
+| 15–16 Sep 2027 | [AGNTCon + MCPCon Europe 2027](https://events.linuxfoundation.org/agntcon-mcpcon-europe-2027/) | London, England | European edition focused on the open agentic AI ecosystem, MCP, interoperability, and production agent infrastructure. |
+
+[Foundation for Agentic Networks and Project NANDA events](https://www.agenticnet.org/events), including workshops, working groups, hackathons, and other Open Agentic Web activities, are also relevant. Their public events page does not currently list specific upcoming dates; dated entries can be added here as organizers announce them.
+
 ## Announcements to watch
 
 These recurring or expected events are relevant, but their next dates or complete logistics were not published when this page was checked:
