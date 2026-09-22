@@ -21,6 +21,10 @@ Standards-adjacent specifications and related work belong in the [`seamless-conn
 | [Service Provider Integration Checklist](integration-checklists/service-provider-integration-checklist.md) | Implementation and estimation guide for Service Providers using Domain Connect or the Seamless Connect Operation API. |
 | [Registrar Integration Checklist](integration-checklists/registrar-integration-checklist.md) | Implementation and estimation guide for the intentionally DNSSEC-only Registrar integration and pilot. |
 
+## Community
+
+- [Industry events calendar](community/events.md): a rolling 12-month calendar for standards, implementation, partner, and ecosystem engagement.
+
 ## Contributing
 
 See the [contribution guide](Contributing.md) for the project's contribution process, licensing, and reporting guidance.
