@@ -1,0 +1,109 @@
+category,target,api_documentation,delegated_authorization,dnssec_support,source
+dns,Akamai Edge DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Alibaba Cloud DNS,Source adapter documentation,Cloud IAM,Not assessed,dnscontrol
+dns,Amazon Route 53,Official API documentation,Cloud IAM,Yes,dnscontrol+octodns
+dns,AutoDNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Azure DNS,Official API documentation,Cloud IAM,Yes,dnscontrol+octodns
+dns,Azure Private DNS,Source adapter documentation,Cloud IAM,Not assessed,dnscontrol
+dns,BIND / RFC 2136,Source adapter documentation,TSIG,Not assessed,dnscontrol+octodns
+dns,Bunny DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,CentralNic Reseller DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Cloudflare DNS,Official API and Domain Connect documentation,OAuth or API token,Yes,project+dnscontrol+octodns+domain-connect
+dns,ClouDNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Constellix DNS,Source plugin documentation,API credentials,Not assessed,octodns
+dns,CSC Global DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,deSEC,Official API documentation,API token,Yes,project+dnscontrol
+dns,DigitalOcean DNS,Source adapter documentation,OAuth or API token,Not assessed,dnscontrol+octodns
+dns,DNS Made Easy,Source adapter and plugin documentation,API credentials,Not assessed,dnscontrol+octodns
+dns,DNSimple,Official API documentation,OAuth or API token,Yes,project+dnscontrol+octodns
+dns,DNScale,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Domain Chief,Domain Connect implementation documentation,Not assessed,Not assessed,domain-connect
+dns,Domainnameshop DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Dyn Managed DNS,Source plugin documentation,API credentials,Not assessed,octodns
+dns,EasyDNS,Source plugin documentation,API credentials,Not assessed,octodns
+dns,Exoscale DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Gandi LiveDNS,Source adapter and plugin documentation,API credentials,Yes,dnscontrol+octodns
+dns,Gcore DNS,Source adapter and plugin documentation,API credentials,Not assessed,dnscontrol+octodns
+dns,Gidinet DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Glauca Digital DNS,Domain Connect implementation documentation,Not assessed,Not assessed,domain-connect
+dns,GoDaddy DNS,Official API and Domain Connect documentation,OAuth or API credentials,Not assessed,domain-connect
+dns,Google Cloud DNS,Official API documentation,Cloud IAM,Yes,dnscontrol+octodns
+dns,Hetzner DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,hosting.de DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Huawei Cloud DNS,Source adapter documentation,Cloud IAM,Not assessed,dnscontrol
+dns,Hurricane Electric Hosted DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,IBM Cloud DNS,Source adapter documentation,Cloud IAM,Not assessed,dnscontrol
+dns,IBM NS1 Connect,Source adapter and plugin documentation,API credentials,Yes,dnscontrol+octodns
+dns,Infomaniak DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,INWX DNS,Source adapter documentation,API credentials,Yes,dnscontrol
+dns,IONOS DNS,Official API and Domain Connect documentation,API credentials,Not assessed,domain-connect
+dns,Joker DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Linode DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Loopia DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,LuaDNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Mythic Beasts DNS,Source adapter and plugin documentation,API credentials,Not assessed,dnscontrol+octodns
+dns,Name.com DNS,Official API documentation,API credentials,Not assessed,project+dnscontrol
+dns,Namecheap DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,NameSilo DNS,Official API and Domain Connect documentation,API credentials,Not assessed,domain-connect
+dns,Netcup DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Netlify DNS,Source adapter documentation,OAuth or API token,Not assessed,dnscontrol
+dns,Netnod DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Oracle Cloud DNS,Source adapter documentation,Cloud IAM,Not assessed,dnscontrol
+dns,OVHcloud DNS,Source adapter and plugin documentation,API credentials,Yes,dnscontrol+octodns
+dns,Packetframe DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Plesk-managed DNS,Domain Connect implementation documentation,Not assessed,Not assessed,domain-connect
+dns,Porkbun DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,PowerDNS Authoritative Server,Source adapter and plugin documentation,API key,Yes,dnscontrol+octodns
+dns,Rackspace DNS,Source plugin documentation,API credentials,Not assessed,octodns
+dns,Realtime Register DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,RWTH DNS-Admin,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Sakura Cloud DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Selectel DNS,Source plugin documentation,API credentials,Not assessed,octodns
+dns,Tencent Cloud DNS,Source adapter documentation,Cloud IAM,Not assessed,dnscontrol
+dns,TransIP DNS,Source adapter and plugin documentation,API credentials,Yes,dnscontrol+octodns
+dns,UltraDNS,Source plugin documentation,API credentials,Not assessed,octodns
+dns,Vercel DNS,Official API and Domain Connect documentation,API token,Not assessed,dnscontrol+domain-connect
+dns,Vultr DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,WebSupport DNS,Source adapter documentation,API credentials,Not assessed,dnscontrol
+dns,Windows Server DNS,Source adapter documentation,Platform credentials,Not assessed,dnscontrol
+dns,WordPress.com DNS,Domain Connect implementation documentation,Not assessed,Not assessed,domain-connect
+registrar,123 Reg,Not recorded,Not assessed,Not assessed,icann
+registrar,Alibaba Cloud / HiChina,Official API documentation,Cloud IAM,Not assessed,icann
+registrar,Amazon Registrar / Route 53 Domains,Official API documentation,Cloud IAM,Not assessed,icann
+registrar,Aruba,Not recorded,Not assessed,Not assessed,icann
+registrar,Ascio,Official reseller API documentation,API credentials,Not assessed,icann
+registrar,AutoDNS / InterNetX,Official reseller API documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,Automattic,Not recorded,Not assessed,Not assessed,icann
+registrar,Cloudflare Registrar,Official API documentation,OAuth or API token,Yes,icann
+registrar,CSC Global,Source adapter documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,DNSimple,Official API documentation,OAuth or API token,Yes,project+dnscontrol+icann
+registrar,Domainnameshop,Public API currently documents DNS operations,API credentials,Not assessed,dnscontrol
+registrar,Dynadot,Source adapter documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,easyname,Source adapter documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,Enom,Official reseller API documentation,API credentials,Not assessed,icann
+registrar,Gandi,Source adapter documentation,API credentials,Yes,dnscontrol+icann
+registrar,Gidinet,Source adapter documentation,API credentials,Not assessed,dnscontrol
+registrar,GoDaddy,Official API documentation,OAuth or API credentials,Not assessed,icann
+registrar,Hostinger,Official API documentation,API credentials,Not assessed,project+icann
+registrar,hosting.de,Source adapter documentation,API credentials,Not assessed,dnscontrol
+registrar,Hover / Tucows,Not recorded,Not assessed,Not assessed,icann
+registrar,Infomaniak,Not recorded,Not assessed,Not assessed,icann
+registrar,Internet.bs,Source adapter documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,INWX,Source adapter documentation,API credentials,Yes,dnscontrol+icann
+registrar,IONOS,Official API documentation,API credentials,Not assessed,icann
+registrar,Joker.com,Source adapter documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,Loopia,Source adapter documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,MarkMonitor,Not recorded,Not assessed,Not assessed,icann
+registrar,Name.com,Official API documentation,API credentials,Yes,project+dnscontrol+icann
+registrar,Namecheap,Source adapter documentation,API credentials,Yes,dnscontrol+icann
+registrar,NameSilo,Official API documentation,API credentials,Yes,icann
+registrar,Network Solutions,Not recorded,Not assessed,Not assessed,icann
+registrar,OpenSRS,Official reseller API documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,OVHcloud,Source adapter documentation,API credentials,Yes,dnscontrol+icann
+registrar,Porkbun,Source adapter documentation,API credentials,Yes,dnscontrol+icann
+registrar,Realtime Register,Source adapter documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,Register.com,Not recorded,Not assessed,Not assessed,icann
+registrar,Squarespace Domains,Not recorded,Not assessed,Yes,icann
+registrar,Team Internet / CentralNic platforms,Official reseller API documentation,API credentials,Not assessed,dnscontrol+icann
+registrar,Tencent Cloud,Official API documentation,Cloud IAM,Not assessed,dnscontrol
+registrar,TransIP,Source adapter documentation,API credentials,Yes,dnscontrol+octodns

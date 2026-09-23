@@ -32,3 +32,9 @@ The catalog does not attempt to list every end user, standards body, or implemen
 | `Integrated` | A usable Seamless Connect integration exists. |
 
 Statuses describe Seamless Connect's integration progress, not the maturity or quality of the target system. They may change as work advances.
+
+## Catalog maintenance
+
+The concise public tables are backed by a separate [maintainer evidence dataset](evidence/). It records discovery sources, API documentation status, delegated-authorization information, and DNSSEC support without adding operational detail to the public catalog.
+
+DNS targets are discovered from active automation ecosystems and Domain Connect implementations. Registrar research prioritizes documented APIs, reseller platforms, and meaningful distribution reach; the full ICANN accreditation directory remains a research source rather than a list to import wholesale.
