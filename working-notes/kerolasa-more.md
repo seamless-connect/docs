@@ -55,6 +55,12 @@ would pull secrets from secure storage, such as Vault, and templates would be
 handled either by Kubernetes ConfigMaps or some other infrastructure-as-code
 method.
 
+PK> this is useful, but my current experience shows that the provider
+are pretty good at implementing this part and in most cases they do it
+fully in front-end. All protocol elements are possible these days - DNS
+TXT query with DoH, build the link. Only the signature requires some backend
+function to deal with the private key.
+
 That said, the SPDC needs more than a few technical features. See
 [Seamless Service](./kerolasa-todo.md) in the TODO file and the seamless
 repository.
@@ -83,6 +89,18 @@ enable Service Providers to test and reproduce updates in a sandbox.
 Real DNS Providers need code that is structured for overriding
 provider-specific details with local interface implementations.
 
+PK> For DNS providers we could have 2 integration patterns: either
+OAuth integration with their API, where Seamless would blend in
+white-label front-end, or a containarised microservice, which
+a provider would be able to integrate themselves.
+I don't believe these days we could expect one software module
+in a given programming language or old-style os-level library would
+be something people would expect and use. I may be wrong of course.
+Last option could be an OS-level binary - however this is also something
+I doubt people are doing this days - spawning processes is expensive
+and socket-level communications somehow almost a forgotten pattern.
+These are my assumptions however without talking to anyone really.
+
 ## All parties need Update Accounting
 
 If and when DNS changes break something, the question is always the same: what
@@ -107,6 +125,9 @@ data field must never be used for other information, such as that due to a
 record conflict the update could not be performed and 'here' is the conflicting
 record. These delete/add entries can be trivially converted to an nsupdate
 script, which means the order of the entries matters.
+
+PK> Do I read it right as a standardised integration interface,
+not that we aim for multi-party observability or tracing, do we?
 
 ## How Seamless could smooth things out
 
@@ -141,9 +162,26 @@ follows.
    checksum of it.
    1. If the template is unknown, it will be declared not-tested.
    2. Known templates have completed one or more validation steps.
+
+PK> we need to be careful which design we would like to have at this step.
+Providing template with each request is likely sub optimal on processing side
+so a pre-provisioning of a template might be a reasonable step.
+We likely need to take care about lifecycle of the template - so that for example
+templates not used for a period X would be deprovisioned.
+
 4. To mark a template known, Seamless DNS will add a TXT record
    1. version.serviceId.providerId.seamlessdns-verify.net.
    2. The content of the TXT record is the SHA-256 of the template data.
+
+PK> Do we need such complicated design? It might be enough
+for Seamless to create a signature over a canonical form of the template,
+which can be injected into the template itself as a vendor metadata?
+I use this method in the signed editor links.
+Seamless would only need to publish it's jwks at a well known place.
+The validation and the signature would only need some reasonable validity,
+so that such signature won't have endless lifetime. Revocation
+might be also a future concern.
+
 5. The same name with HINFO contains a validation-status magic string. The
    string encodes whether the Service Provider has confirmed by applying the
    template that it works when applied to the Seamless DNS validation domain.
@@ -154,11 +192,31 @@ follows.
    4. The logo URL contains an image file.
    5. And so on
 
+PK> one item missing: identity verification. I think it is of a value to confirm
+that the service provider is who they pretend to be by making verification
+of control of their service provider id (domain).
+
+PK> I think we can even go further in the conformance testing.
+The DNS provider is highly interested that the service provider
+is implementing the protocol right. This is even more important
+these days when the software is less written by humans
+and machines sometimes go utterly wrong in their assumptions.
+I think there shall be an implementation conformance test
+harness that the service provider has to pass before they
+become a rubber stamp on their template (or provider).
+
 This allows deprecation of the GitHub templates in favour of Service Providers
 sending the template to the DNS Provider on request. At the time of applying,
 the Service Provider will send the SHA-256 checksum of the template to the DNS
 Provider. If the DNS Provider already has the template in its cache, it can be
 applied without further checking.
+
+PK> see above - doing it on the fly might be expensive on processing
+side. I see however some benefits of this design indeed - the need to
+persist the template would cease to exist with this setup - theoretically
+allowing for a full front-end side implementation by the dns provider.
+URL length limit might be of concern. We shall be able to keep it within
+8k octets otherwise wild error scenarios might happen
 
 When a Service Provider asks to apply an unknown template, its contents need
 to be transported to the DNS Provider. The DNS Provider can then check whether
@@ -178,6 +236,13 @@ schema, in which the hosting provider will
 3. Templates can be uploaded to a providerId scope.
 4. For syncPubKeyDomain validation, SPDS hosting has automatic key generation
    and a button to rotate the key.
+
+PK> good idea. Here we shall however consider what GoDaddy guy Scott said,
+not to concentrate too many keys in one pocket, so that Seamless would not
+appear to be a valuable target for attack.
+For consideration if the service provider would not hold their keys on their
+own and sign the requests. I will leave it open for now - as I am not 100%
+convinced it would serve for a safer internet.
 
 ### Update transaction accounting
 
@@ -204,3 +269,6 @@ is most definitely working.
 
 Notice that a rollback that causes a rollback is the stuff of nightmares. Use
 an update stack for keeping track of state.
+
+PK> when would we need something like this? The only use case I think of is
+DNS transfer - otherwise typically one domain has only one home.
